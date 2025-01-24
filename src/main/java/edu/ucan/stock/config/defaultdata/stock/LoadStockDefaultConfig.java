@@ -1,4 +1,4 @@
-package edu.ucan.stock.config.stock;
+package edu.ucan.stock.config.defaultdata.stock;
 
 import edu.ucan.stock.entities.Armazem;
 import edu.ucan.stock.entities.Produto;

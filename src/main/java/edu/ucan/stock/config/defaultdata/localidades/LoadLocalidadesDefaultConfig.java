@@ -1,4 +1,4 @@
-package edu.ucan.stock.config.localidades;
+package edu.ucan.stock.config.defaultdata.localidades;
 
 import edu.ucan.stock.entities.Localidade;
 import edu.ucan.stock.repositories.LocalidadeRepository;

@@ -1,4 +1,4 @@
-package edu.ucan.stock.config.movimentos;
+package edu.ucan.stock.config.defaultdata.movimentos;
 
 import edu.ucan.stock.entities.Movimento;
 import edu.ucan.stock.entities.Stock;
@@ -18,8 +18,8 @@ import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
 @Configuration
-@DependsOn({"loadStockDefaultConfig", "loadMovimentosEntradasConfig"})
-public class LoadMovimentoSaidasConfig {
+@DependsOn({"loadStockDefaultConfig"})
+public class LoadMovimentosEntradasConfig {
 
     @Autowired
     private MovimentoRepository movimentoRepository;
@@ -28,33 +28,33 @@ public class LoadMovimentoSaidasConfig {
     private StockRepository stockRepository;
 
     @Bean
-    @Order(6)
+    @Order(5)
     @Transactional
-    public CommandLineRunner carregarMovimentosSaidas() {
+    public CommandLineRunner carregarMovimentosDefault() {
         return args -> {
-            saidas();
-            System.out.println("Saídas carregadas com sucesso!");
+            entradas();
+            System.out.println("Entradas carregadas com sucesso!");
             
         };
     }
 
-    public void saidas() {
+    public void entradas() {
         List<Stock> estoques = stockRepository.findAll();
         for (Stock stock : estoques) {
-            if (stock.getQuantidade() > 0) {
-                int quantidadeSaida = ThreadLocalRandom.current().nextInt(1, stock.getQuantidade() + 1);
-                Movimento movimentoSaida = new Movimento();
-                movimentoSaida.setTipoMovimento(TipoMovimento.SAIDA);
-                movimentoSaida.setStock(stock);
-                movimentoSaida.setProduto(stock.getProduto());
-                movimentoSaida.setArmazem(stock.getArmazem());
-                movimentoSaida.setQuantidade(quantidadeSaida);
-                movimentoSaida.setData(LocalDateTime.now());
-                movimentoRepository.save(movimentoSaida);
-                stockRepository.save(stock);
+            int quantidadeEntrada = ThreadLocalRandom.current().nextInt(10, 101);
 
-            }
+            Movimento movimentoEntrada = new Movimento();
+            movimentoEntrada.setTipoMovimento(TipoMovimento.ENTRADA);
+            movimentoEntrada.setStock(stock);
+            movimentoEntrada.setProduto(stock.getProduto());
+            movimentoEntrada.setArmazem(stock.getArmazem());
+            movimentoEntrada.setQuantidade(quantidadeEntrada);
+            movimentoEntrada.setData(LocalDateTime.now());
+            movimentoRepository.save(movimentoEntrada);
+            stockRepository.save(stock);
+
         }
     }
+
 
 }

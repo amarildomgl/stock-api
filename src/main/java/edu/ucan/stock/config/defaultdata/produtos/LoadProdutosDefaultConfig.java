@@ -1,4 +1,4 @@
-package edu.ucan.stock.config.produtos;
+package edu.ucan.stock.config.defaultdata.produtos;
 
 import edu.ucan.stock.entities.Categoria;
 import edu.ucan.stock.entities.Produto;
