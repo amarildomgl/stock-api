@@ -1,6 +1,6 @@
 package edu.ucan.stock.controller;
 
-import edu.ucan.stock.dto.CategoriaDTO;
+import edu.ucan.stock.dto.records.CategoriaRecord;
 import edu.ucan.stock.entities.Categoria;
 import edu.ucan.stock.services.CategoriaService;
 import edu.ucan.stock.utils.BaseController;
@@ -24,7 +24,7 @@ public class CategoriaController extends BaseController {
     public ResponseEntity<ResponseBody> get(
             @RequestParam(defaultValue = "0") int pagina,
             @RequestParam(defaultValue = "10") int itens) {
-        List<CategoriaDTO> categorias = service.findAll(pagina, itens)
+        List<CategoriaRecord> categorias = service.findAll(pagina, itens)
                 .getContent()
                 .stream()
                 .map(service::toDto)
@@ -35,7 +35,7 @@ public class CategoriaController extends BaseController {
 
     @GetMapping
     public ResponseEntity<ResponseBody> get() {
-        List<CategoriaDTO> categorias = service.findAll()
+        List<CategoriaRecord> categorias = service.findAll()
                 .stream()
                 .map(service::toDto)
                 .collect(Collectors.toList());
@@ -46,7 +46,7 @@ public class CategoriaController extends BaseController {
     public ResponseEntity<ResponseBody> find(@PathVariable Integer id) {
         Optional<Categoria> entidade = service.findById(id);
         if (entidade.isPresent()) {
-            CategoriaDTO dto = service.toDto(entidade.get());
+            CategoriaRecord dto = service.toDto(entidade.get());
             return this.ok("Encontrado com sucesso.", dto);
         }
         return this.notFound("Não encontrada.", null);
@@ -58,17 +58,17 @@ public class CategoriaController extends BaseController {
             @RequestParam(required = false) String codigo) {
         Optional<Categoria> entidade = service.findByFilter(nome, codigo);
         if (entidade.isPresent()) {
-            CategoriaDTO dto = service.toDto(entidade.get());
+            CategoriaRecord dto = service.toDto(entidade.get());
             return this.ok("Encontrado com sucesso.", dto);
         }
         return this.notFound("Não encontrada.", null);
     }
 
     @PostMapping
-    public ResponseEntity<ResponseBody> create(@RequestBody CategoriaDTO dto) {
+    public ResponseEntity<ResponseBody> create(@RequestBody CategoriaRecord dto) {
         Categoria entidade = service.toEntity(dto);
         Categoria savedEntity = service.create(entidade);
-        CategoriaDTO savedDto = service.toDto(savedEntity);
+        CategoriaRecord savedDto = service.toDto(savedEntity);
         return this.created("Adicionado com sucesso.", savedDto);
     }
 
@@ -78,10 +78,10 @@ public class CategoriaController extends BaseController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ResponseBody> edit(@PathVariable("id") Integer id, @RequestBody CategoriaDTO dto) {
+    public ResponseEntity<ResponseBody> edit(@PathVariable("id") Integer id, @RequestBody CategoriaRecord dto) {
         Categoria entidade = service.toEntity(dto);
         Categoria updatedEntity = service.update(id, entidade);
-        CategoriaDTO updatedDto = service.toDto(updatedEntity);
+        CategoriaRecord updatedDto = service.toDto(updatedEntity);
         return this.ok("Editado com sucesso.", updatedDto);
     }
 }

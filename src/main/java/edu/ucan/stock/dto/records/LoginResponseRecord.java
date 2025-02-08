@@ -1,4 +1,4 @@
 package edu.ucan.stock.dto.records;
 
-public record LoginResponseRecord() {
+public record LoginResponseRecord(String token) {
 }

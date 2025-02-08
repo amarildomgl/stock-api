@@ -1,6 +1,6 @@
 package edu.ucan.stock.services;
 
-import edu.ucan.stock.dto.LocalidadeDTO;
+import edu.ucan.stock.dto.records.LocalidadeRecord;
 import edu.ucan.stock.entities.Localidade;
 import edu.ucan.stock.repositories.LocalidadeRepository;
 import edu.ucan.stock.specification.LocalidadeSpec;
@@ -25,18 +25,18 @@ public class LocalidadeService extends AbstractService<Localidade, Integer> {
     }
 
 
-    public LocalidadeDTO toDTO(Localidade localidade) {
+    public LocalidadeRecord toDTO(Localidade localidade) {
         Integer FkLocalidadePai = null;
         if (localidade != null) {
             if (localidade.getFkLocalidadePai() != null) {
                 FkLocalidadePai = localidade.getFkLocalidadePai().getPkLocalidade();
             }
-            return new LocalidadeDTO(localidade.getPkLocalidade(), localidade.getNome(), localidade.getCodigo(), FkLocalidadePai);
+            return new LocalidadeRecord(localidade.getPkLocalidade(), localidade.getNome(), localidade.getCodigo(), FkLocalidadePai);
         }
         return null;
     }
 
-    public Localidade toEntity(LocalidadeDTO dto) {
+    public Localidade toEntity(LocalidadeRecord dto) {
         Localidade localidade = new Localidade();
         if (dto.pkLocalidade() != null) {
             localidade = repository.findById(dto.pkLocalidade()).orElse(new Localidade());

@@ -1,4 +1,4 @@
-package edu.ucan.stock.dto;
+package edu.ucan.stock.dto.records;
 
-public record CategoriaDTO(Integer pkCategoria, String nome, String codigo) {
+public record CategoriaRecord(Integer pkCategoria, String nome, String codigo) {
 }

@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class LogDTO {
+public class LogModel {
     private String message;
     private LocalDateTime dateTime;
     private Object data;

@@ -1,6 +1,6 @@
 package edu.ucan.stock.services;
 
-import edu.ucan.stock.dto.ArmazemDTO;
+import edu.ucan.stock.dto.records.ArmazemRecord;
 import edu.ucan.stock.entities.Armazem;
 import edu.ucan.stock.entities.Localidade;
 import edu.ucan.stock.repositories.ArmazemRepository;
@@ -25,9 +25,9 @@ public class ArmazemService extends AbstractService<Armazem, Integer> {
         return repository.findOne(ArmazemSpec.filterBy(nome, codigo));
     }
 
-    public ArmazemDTO toDto(Armazem armazem) {
+    public ArmazemRecord toDto(Armazem armazem) {
         if (armazem != null) {
-            return new ArmazemDTO(
+            return new ArmazemRecord(
                     armazem.getPkArmazem(),
                     armazem.getNome(),
                     armazem.getCodigo(),
@@ -37,7 +37,7 @@ public class ArmazemService extends AbstractService<Armazem, Integer> {
         return null;
     }
 
-    public Armazem toEntity(ArmazemDTO dto) {
+    public Armazem toEntity(ArmazemRecord dto) {
         if (dto == null)
             return null;
         Localidade endereco = null;

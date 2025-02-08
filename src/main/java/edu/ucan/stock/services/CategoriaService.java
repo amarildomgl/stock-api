@@ -1,6 +1,6 @@
 package edu.ucan.stock.services;
 
-import edu.ucan.stock.dto.CategoriaDTO;
+import edu.ucan.stock.dto.records.CategoriaRecord;
 import edu.ucan.stock.entities.Categoria;
 import edu.ucan.stock.repositories.CategoriaRepository;
 import edu.ucan.stock.specification.CategoriaSpec;
@@ -26,11 +26,11 @@ public class CategoriaService extends AbstractService<Categoria, Integer> {
     }
 
 
-    public CategoriaDTO toDto(Categoria categoria) {
-        return categoria != null ? modelMapper.map(categoria, CategoriaDTO.class) : null;
+    public CategoriaRecord toDto(Categoria categoria) {
+        return categoria != null ? modelMapper.map(categoria, CategoriaRecord.class) : null;
     }
 
-    public Categoria toEntity(CategoriaDTO categoriaDTO) {
+    public Categoria toEntity(CategoriaRecord categoriaDTO) {
         return categoriaDTO != null ? modelMapper.map(categoriaDTO, Categoria.class) : null;
     }
 

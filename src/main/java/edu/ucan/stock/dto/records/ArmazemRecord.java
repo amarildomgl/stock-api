@@ -1,4 +1,4 @@
-package edu.ucan.stock.dto;
+package edu.ucan.stock.dto.records;
 
-public record ArmazemDTO(Integer pkArmazem, String nome, String codigo, Integer fkEndereco) {
+public record ArmazemRecord(Integer pkArmazem, String nome, String codigo, Integer fkEndereco) {
 }

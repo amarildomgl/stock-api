@@ -1,7 +1,9 @@
 package edu.ucan.stock.controller;
 
-import edu.ucan.stock.dto.ArmazemDTO;
+import edu.ucan.stock.dto.records.ArmazemRecord;
+import edu.ucan.stock.dto.LogModel;
 import edu.ucan.stock.entities.Armazem;
+import edu.ucan.stock.producer.LogProducer;
 import edu.ucan.stock.services.ArmazemService;
 import edu.ucan.stock.utils.BaseController;
 import edu.ucan.stock.utils.ResponseBody;
@@ -9,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -20,11 +23,14 @@ public class ArmazemController extends BaseController {
     @Autowired
     private ArmazemService service;
 
+    @Autowired
+    private LogProducer logProducer;
+
     @GetMapping("/pagina")
     public ResponseEntity<ResponseBody> get(
             @RequestParam(defaultValue = "0") int pagina,
             @RequestParam(defaultValue = "10") int itens) {
-        List<ArmazemDTO> armazens = this.service.findAll(pagina, itens)
+        List<ArmazemRecord> armazens = this.service.findAll(pagina, itens)
                 .getContent()
                 .stream()
                 .map(service::toDto)
@@ -34,17 +40,21 @@ public class ArmazemController extends BaseController {
 
     @GetMapping
     public ResponseEntity<ResponseBody> get() {
-        return this.ok("Lista", this.service.findAll()
+        var result = this.service.findAll()
                 .stream()
                 .map(service::toDto)
-                .collect(Collectors.toList()));
+                .collect(Collectors.toList());
+
+        logProducer.sendLog(new LogModel("Armazem", LocalDateTime.now(), result));
+
+        return this.ok("Lista", result);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<ResponseBody> find(@PathVariable Integer id) {
         Optional<Armazem> entidade = service.findById(id);
         if (entidade.isPresent()) {
-            ArmazemDTO dto = service.toDto(entidade.get());
+            ArmazemRecord dto = service.toDto(entidade.get());
             return this.ok("Encontrado com sucesso.", dto);
         }
         return this.notFound("Não encontrado.", null);
@@ -56,24 +66,24 @@ public class ArmazemController extends BaseController {
             @RequestParam(required = false) String codigo) {
         Optional<Armazem> entidade = service.findByFilter(nome, codigo);
         if (entidade.isPresent()) {
-            ArmazemDTO dto = service.toDto(entidade.get());
+            ArmazemRecord dto = service.toDto(entidade.get());
             return this.ok("Encontrado com sucesso.", dto);
         }
         return this.notFound("Não encontrado.", null);
     }
 
     @PostMapping
-    public ResponseEntity<ResponseBody> create(@RequestBody ArmazemDTO entidade) {
+    public ResponseEntity<ResponseBody> create(@RequestBody ArmazemRecord entidade) {
         Armazem savedEntity = this.service.create(service.toEntity(entidade));
-        ArmazemDTO savedDto = service.toDto(savedEntity);
+        ArmazemRecord savedDto = service.toDto(savedEntity);
         return this.created("Adicionado com sucesso.", savedDto);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ResponseBody> edit(@PathVariable("id") Integer id, @RequestBody ArmazemDTO dto) {
+    public ResponseEntity<ResponseBody> edit(@PathVariable("id") Integer id, @RequestBody ArmazemRecord dto) {
         Armazem entidade = service.toEntity(dto);
         Armazem updatedEntity = service.update(id, entidade);
-        ArmazemDTO updatedDto = service.toDto(updatedEntity);
+        ArmazemRecord updatedDto = service.toDto(updatedEntity);
         return this.ok("Editado com sucesso.", updatedDto);
     }
 
