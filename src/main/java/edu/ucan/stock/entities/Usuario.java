@@ -30,6 +30,7 @@ public class Usuario implements UserDetails {
     @Column(name = "senha", nullable = false)
     private String senha;
 
+    @Column(name = "tipo_usuario", nullable = false)
     private TipoUsuario tipoUsuario;
 
     public Usuario(String login, String senha, TipoUsuario tipoUsuario) {
@@ -46,29 +47,24 @@ public class Usuario implements UserDetails {
                     new SimpleGrantedAuthority("ROLE_GESTOR"),
                     new SimpleGrantedAuthority("ROLE_COLABORADOR"),
                     new SimpleGrantedAuthority("ROLE_CLIENTE"),
-                    new SimpleGrantedAuthority("ROLE_FORNECEDOR"),
-                    new SimpleGrantedAuthority("ROLE_USER")
+                    new SimpleGrantedAuthority("ROLE_FORNECEDOR")
             );
             case GESTOR -> List.of(
                     new SimpleGrantedAuthority("ROLE_GESTOR"),
                     new SimpleGrantedAuthority("ROLE_COLABORADOR"),
                     new SimpleGrantedAuthority("ROLE_CLIENTE"),
-                    new SimpleGrantedAuthority("ROLE_FORNECEDOR"),
-                    new SimpleGrantedAuthority("ROLE_USER")
+                    new SimpleGrantedAuthority("ROLE_FORNECEDOR")
             );
             case COLABORADOR -> List.of(
                     new SimpleGrantedAuthority("ROLE_COLABORADOR"),
                     new SimpleGrantedAuthority("ROLE_CLIENTE"),
-                    new SimpleGrantedAuthority("ROLE_FORNECEDOR"),
-                    new SimpleGrantedAuthority("ROLE_USER")
+                    new SimpleGrantedAuthority("ROLE_FORNECEDOR")
             );
             case CLIENTE -> List.of(
-                    new SimpleGrantedAuthority("ROLE_CLIENTE"),
-                    new SimpleGrantedAuthority("ROLE_USER")
+                    new SimpleGrantedAuthority("ROLE_CLIENTE")
             );
             case FORNECEDOR -> List.of(
-                    new SimpleGrantedAuthority("ROLE_FORNECEDOR"),
-                    new SimpleGrantedAuthority("ROLE_USER")
+                    new SimpleGrantedAuthority("ROLE_FORNECEDOR")
             );
         };
     }

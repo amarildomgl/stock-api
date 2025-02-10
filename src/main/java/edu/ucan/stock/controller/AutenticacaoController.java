@@ -7,6 +7,7 @@ import edu.ucan.stock.dto.records.RegisterRecord;
 import edu.ucan.stock.entities.Usuario;
 import edu.ucan.stock.repositories.UsuarioRepository;
 import edu.ucan.stock.utils.BaseController;
+import edu.ucan.stock.utils.ResponseBody;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -42,14 +43,13 @@ public class AutenticacaoController extends BaseController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity register(@RequestBody @Valid RegisterRecord data) {
+    public ResponseEntity<ResponseBody> register(@RequestBody @Valid RegisterRecord data) {
         if (this.repository.findByLogin(data.login()) != null) return ResponseEntity.badRequest().build();
 
         String encryptedPassword = new BCryptPasswordEncoder().encode(data.senha());
         Usuario usuario = new Usuario(data.login(), encryptedPassword, data.tipoUsuario());
 
-        this.repository.save(usuario);
+        return this.created("Adicionado com sucesso.", this.repository.save(usuario));
 
-        return ResponseEntity.ok().build();
     }
 }

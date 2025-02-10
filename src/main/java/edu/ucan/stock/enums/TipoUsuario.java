@@ -1,19 +1,19 @@
 package edu.ucan.stock.enums;
 
 public enum TipoUsuario {
-    ADMINISTRADOR("ADMINISTRADOR"),
-    GESTOR("GESTOR"),
-    COLABORADOR("COLABORADOR"),
-    CLIENTE("CLIENTE"),
-    FORNECEDOR("FORNECEDOR");
+    ADMINISTRADOR(1),
+    GESTOR(2),
+    COLABORADOR(3),
+    CLIENTE(4),
+    FORNECEDOR(5);
 
-    private String tipoUsuario;
+    private int tipoUsuario;
 
-    TipoUsuario(String tipo) {
+    TipoUsuario(int tipo) {
         this.tipoUsuario = tipo;
     }
 
-    public String getTipoUsuario() {
+    public int getTipoUsuario() {
         return tipoUsuario;
     }
 }
